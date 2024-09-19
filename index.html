@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HERE Maps - Caminhão Rastreado</title>
+    <style>
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <link rel="stylesheet" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css">
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+    // Inicializando a plataforma HERE Maps com a chave de API
+    var platform = new H.service.Platform({
+        apikey: 'aQSmaAIRQm7KHxw4z7RzP4O7HmceRN5fed54W4qlLb4'
+    });
+
+    // Obtendo os serviços de mapas da plataforma
+    var defaultLayers = platform.createDefaultLayers();
+
+    // Inicializando o mapa
+    var map = new H.Map(document.getElementById('map'),
+        defaultLayers.vector.normal.map, {
+        center: { lat: -12.900, lng: -38.333 },
+        zoom: 14,
+        pixelRatio: window.devicePixelRatio || 1
+    });
+
+    // Tornando o mapa responsivo
+    window.addEventListener('resize', () => map.getViewPort().resize());
+
+    // Habilitando interações do mapa (arrastar, zoom)
+    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+    // Adicionando a interface de usuário (controles de zoom)
+    var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+    // Coordenadas do rastreador (caminhão)
+    var trackerData = [
+    { "lat": -12.89944, "lng": -38.32957 },
+  { "lat": -12.89939, "lng": -38.32952 },
+  { "lat": -12.89929, "lng": -38.3294 },
+  { "lat": -12.89891, "lng": -38.32899 },
+  { "lat": -12.89891, "lng": -38.32898 },
+  { "lat": -12.89867, "lng": -38.32872 },
+  { "lat": -12.89831, "lng": -38.3283 },
+  { "lat": -12.89825, "lng": -38.32821 },
+  { "lat": -12.89819, "lng": -38.32814 },
+  { "lat": -12.89787, "lng": -38.32773 },
+  { "lat": -12.89771, "lng": -38.32752 },
+  { "lat": -12.8976, "lng": -38.32737 },
+  { "lat": -12.89759, "lng": -38.32737 },
+  { "lat": -12.89751, "lng": -38.32726 },
+  { "lat": -12.89745, "lng": -38.3272 },
+  { "lat": -12.89739, "lng": -38.32715 },
+  { "lat": -12.89734, "lng": -38.32712 },
+  { "lat": -12.89725, "lng": -38.32707 },
+  { "lat": -12.89684, "lng": -38.32688 },
+  { "lat": -12.8956, "lng": -38.32632 },
+  { "lat": -12.89543, "lng": -38.32624 },
+  { "lat": -12.89466, "lng": -38.32588 },
+  { "lat": -12.89419, "lng": -38.32564 },
+  { "lat": -12.89395, "lng": -38.32552 },
+  { "lat": -12.8933, "lng": -38.32518 },
+  { "lat": -12.89309, "lng": -38.32507 },
+  { "lat": -12.8929, "lng": -38.32499 },
+  { "lat": -12.89241, "lng": -38.32481 },
+  { "lat": -12.89238, "lng": -38.3248 },
+  { "lat": -12.89233, "lng": -38.32477 },
+  { "lat": -12.89231, "lng": -38.32475 },
+  { "lat": -12.89228, "lng": -38.32473 },
+  { "lat": -12.89225, "lng": -38.3247 },
+  { "lat": -12.89223, "lng": -38.32468 },
+  { "lat": -12.89221, "lng": -38.32464 },
+  { "lat": -12.8914, "lng": -38.32364 },
+  { "lat": -12.89124, "lng": -38.32344 },
+  { "lat": -12.89089, "lng": -38.32299 },
+  { "lat": -12.89068, "lng": -38.32272 },
+  { "lat": -12.89066, "lng": -38.32271 },
+  { "lat": -12.89066, "lng": -38.32265 },
+  { "lat": -12.89066, "lng": -38.32261 },
+  { "lat": -12.89065, "lng": -38.32256 },
+  { "lat": -12.89065, "lng": -38.32251 },
+  { "lat": -12.89065, "lng": -38.32245 },
+  { "lat": -12.89065, "lng": -38.32241 },
+  { "lat": -12.89065, "lng": -38.32237 },
+  { "lat": -12.89065, "lng": -38.32233 },
+  { "lat": -12.89065, "lng": -38.32228 },
+  { "lat": -12.89063, "lng": -38.32221 },
+  { "lat": -12.8906, "lng": -38.3221 },//pa
+  { lat: -12.89055, lng: -38.32205 },
+    { lat: -12.8904, lng: -38.32188 },
+    { lat: -12.89057, lng: -38.32167 },
+    { lat: -12.89071, lng: -38.32149 },
+    { lat: -12.89086, lng: -38.3213 },
+    { lat: -12.89102, lng: -38.32111 },
+    { lat: -12.89117, lng: -38.32093 },
+    { lat: -12.89133, lng: -38.32075 },
+    { lat: -12.89145, lng: -38.32058 },
+    { lat: -12.8916, lng: -38.32039 },
+    { lat: -12.89172, lng: -38.32022 },
+    { lat: -12.89188, lng: -38.32002 },
+    { lat: -12.89202, lng: -38.31985 },
+    { lat: -12.89217, lng: -38.31967 },
+    { lat: -12.89234, lng: -38.31947 },
+    { lat: -12.8925, lng: -38.31929 },
+    { lat: -12.89283, lng: -38.31974 },
+    { lat: -12.89288, lng: -38.31982 },
+    { lat: -12.89313, lng: -38.32028 },
+    { lat: -12.89316, lng: -38.32034 },
+    { lat: -12.8932, lng: -38.32041 },
+    { lat: -12.89326, lng: -38.32056 },
+    { lat: -12.89334, lng: -38.32072 },
+    { lat: -12.89342, lng: -38.32085 },
+    { lat: -12.89347, lng: -38.32091 },
+    { lat: -12.89358, lng: -38.32104 },
+    { lat: -12.89335, lng: -38.3217 },
+    { lat: -12.89313, lng: -38.3225 },
+    { lat: -12.89358, lng: -38.32272 },
+    { lat: -12.89369, lng: -38.32241 },
+    { lat: -12.89377, lng: -38.32219 },
+    { lat: -12.8939, lng: -38.32178 },
+    { lat: -12.89406, lng: -38.32131 },
+    { lat: -12.89408, lng: -38.32121 },
+    { lat: -12.89411, lng: -38.3211 },
+    { lat: -12.89416, lng: -38.32101 },
+    { lat: -12.89419, lng: -38.32093 },
+    { lat: -12.89424, lng: -38.32085 },
+    { lat: -12.89427, lng: -38.32082 },
+    { lat: -12.8943, lng: -38.32079 },
+    { lat: -12.89436, lng: -38.32073 },
+    { lat: -12.89448, lng: -38.32063 },
+    { lat: -12.8945, lng: -38.32061 },
+    { lat: -12.89477, lng: -38.32038 },
+    { lat: -12.89483, lng: -38.32033 },
+    { lat: -12.89491, lng: -38.32026 },
+    { lat: -12.89504, lng: -38.32015 },
+    { lat: -12.89509, lng: -38.3201 },
+    { lat: -12.89532, lng: -38.31987 },
+    { lat: -12.89557, lng: -38.31962 },
+    { lat: -12.89577, lng: -38.31986 },
+    { lat: -12.89591, lng: -38.32004 },
+    { lat: -12.89606, lng: -38.32022 },
+    { lat: -12.89652, lng: -38.31981 },
+    { lat: -12.89669, lng: -38.31966 },
+    { lat: -12.8968, lng: -38.31958 },
+    { lat: -12.89695, lng: -38.31947 },
+    { lat: -12.89695, lng: -38.31936 },
+    { lat: -12.89694, lng: -38.31924 },
+    { lat: -12.89699, lng: -38.31922 },
+    { lat: -12.89705, lng: -38.3192 },
+    { lat: -12.89718, lng: -38.31913 },
+    { lat: -12.89723, lng: -38.3191 },
+    { lat: -12.89728, lng: -38.31906 },
+    { lat: -12.8973, lng: -38.31905 },
+    { lat: -12.89733, lng: -38.31904 },
+    { lat: -12.89734, lng: -38.31903 },
+    { lat: -12.89735, lng: -38.31903 },
+    { lat: -12.89736, lng: -38.31904 },
+    { lat: -12.89737, lng: -38.31904 },
+    { lat: -12.89738, lng: -38.31906 },
+    { lat: -12.89743, lng: -38.31911 },
+    { lat: -12.89751, lng: -38.31919 },
+    { lat: -12.89763, lng: -38.3193 },
+    { lat: -12.89795, lng: -38.31965 },
+    { lat: -12.89707, lng: -38.32072 },
+    { lat: -12.89709, lng: -38.32103 },
+    { lat: -12.89711, lng: -38.32134 },
+    { lat: -12.8971, lng: -38.32142 },
+    { lat: -12.89711, lng: -38.32148 },
+    { lat: -12.89711, lng: -38.32153 },
+    { lat: -12.89713, lng: -38.32158 },
+    { lat: -12.89715, lng: -38.32165 },
+    { lat: -12.89721, lng: -38.32177 },
+    { lat: -12.89729, lng: -38.32187 },
+    { lat: -12.89744, lng: -38.32208 },//aqui
+    { lat: -12.8976, lng: -38.32228 },
+    { lat: -12.89774, lng: -38.32245 },
+    { lat: -12.89788, lng: -38.32264 },
+    { lat: -12.8979, lng: -38.32267 },
+    { lat: -12.89791, lng: -38.32268 },
+    { lat: -12.89792, lng: -38.3227 },
+    { lat: -12.89802, lng: -38.32283 },
+    { lat: -12.89798, lng: -38.32287 },
+    { lat: -12.89796, lng: -38.3229 },
+    { lat: -12.89791, lng: -38.32295 },
+    { lat: -12.89781, lng: -38.32305 },
+    { lat: -12.89759, lng: -38.32327 },
+    { lat: -12.89749, lng: -38.32339 },
+    { lat: -12.89733, lng: -38.32355 },
+    { lat: -12.89712, lng: -38.32375 },
+    { lat: -12.89702, lng: -38.32387 },
+    { lat: -12.89697, lng: -38.32393 },
+    { lat: -12.89695, lng: -38.32395 },
+    { lat: -12.89675, lng: -38.3242 },
+    { lat: -12.89662, lng: -38.32437 },
+    { lat: -12.89657, lng: -38.32434 },
+    { lat: -12.8963, lng: -38.32415 },
+    { lat: -12.89621, lng: -38.32405 },
+    { lat: -12.89611, lng: -38.32393 },
+    { lat: -12.89594, lng: -38.32371 },
+    { lat: -12.89587, lng: -38.32361 },
+    { lat: -12.89579, lng: -38.3235 },
+    { lat: -12.89568, lng: -38.32336 },
+    { lat: -12.89565, lng: -38.32331 },
+    { lat: -12.89557, lng: -38.32319 },
+    { lat: -12.89542, lng: -38.32297 },
+    { lat: -12.89536, lng: -38.32282 },
+    { lat: -12.89517, lng: -38.323 },
+    { lat: -12.89499, lng: -38.32316 },
+    { lat: -12.89472, lng: -38.3234 },
+    { lat: -12.89447, lng: -38.32362 },
+    { lat: -12.89409, lng: -38.32399 },
+    { lat: -12.89387, lng: -38.32417 },
+    { lat: -12.89378, lng: -38.32422 },
+    { lat: -12.89389, lng: -38.3243 },
+    { lat: -12.89402, lng: -38.32439 },
+    { lat: -12.89413, lng: -38.32447 },
+    { lat: -12.89416, lng: -38.3245 },
+    { lat: -12.89426, lng: -38.32456 },
+    { lat: -12.89443, lng: -38.32465 },
+    { lat: -12.89503, lng: -38.32479 },
+    { lat: -12.89511, lng: -38.3248 },
+    { lat: -12.89521, lng: -38.32479 },
+    { lat: -12.89566, lng: -38.32474 },
+    { lat: -12.89599, lng: -38.32478 },
+    { lat: -12.89636, lng: -38.32493 },
+    { lat: -12.89656, lng: -38.32502 },
+    { lat: -12.89739, lng: -38.32538 },
+    { lat: -12.89746, lng: -38.32542 },
+    { lat: -12.89762, lng: -38.32551 },
+    { lat: -12.89783, lng: -38.32563 },
+    { lat: -12.89802, lng: -38.32558 },
+    { lat: -12.8983, lng: -38.32548 },
+    { lat: -12.89838, lng: -38.32545 },
+    { lat: -12.89839, lng: -38.32526 },
+    { lat: -12.8983, lng: -38.32521 },
+    { lat: -12.89846, lng: -38.32488 },
+    { lat: -12.89866, lng: -38.32448 },
+    { lat: -12.89871, lng: -38.32439 },
+    { lat: -12.89877, lng: -38.32426 },
+    { lat: -12.89885, lng: -38.32411 },
+    { lat: -12.89891, lng: -38.32399 },
+    { lat: -12.89903, lng: -38.32374 },
+    { lat: -12.89913, lng: -38.32352 },
+    { lat: -12.89964, lng: -38.32253 },
+    { lat: -12.89971, lng: -38.32241 },
+    { lat: -12.89959, lng: -38.32228 },
+    { lat: -12.89945, lng: -38.32215 },
+    { lat: -12.89922, lng: -38.32194 },
+    { lat: -12.89898, lng: -38.32172 },
+    { lat: -12.89891, lng: -38.32166 },
+    { lat: -12.89884, lng: -38.32159 },
+    { lat: -12.89871, lng: -38.32147 },
+    { lat: -12.89867, lng: -38.32144 },
+    { lat: -12.89849, lng: -38.32126 },
+    { lat: -12.89822, lng: -38.32099 },
+    { lat: -12.89791, lng: -38.32068 },
+    { lat: -12.89828, lng: -38.32038 },
+    { lat: -12.89896, lng: -38.31983 },
+    { lat: -12.8992, lng: -38.3196 },
+    { lat: -12.89929, lng: -38.31951 },
+    { lat: -12.89936, lng: -38.31945 },
+    { lat: -12.89944, lng: -38.31937 },
+    { lat: -12.89956, lng: -38.31924 },
+    { lat: -12.89968, lng: -38.31911 },
+    { lat: -12.89977, lng: -38.31899 },
+    { lat: -12.8998, lng: -38.31896 },
+    { lat: -12.89986, lng: -38.31891 },
+    { lat: -12.90006, lng: -38.31869 },
+    { lat: -12.90018, lng: -38.31857 },
+    { lat: -12.90034, lng: -38.3184 },
+    { lat: -12.90057, lng: -38.31817 },
+    { lat: -12.90066, lng: -38.31806 },
+    { lat: -12.90079, lng: -38.31793 },
+    { lat: -12.90093, lng: -38.31777 },
+    { lat: -12.90121, lng: -38.31744 },
+    { lat: -12.90093, lng: -38.31724 },
+    { lat: -12.9006, lng: -38.31701 },
+    { lat: -12.90014, lng: -38.31674 },
+    { lat: -12.9, lng: -38.31665 },
+    { lat: -12.89961, lng: -38.31639 },
+    { lat: -12.89938, lng: -38.31624 },
+    { lat: -12.89929, lng: -38.31619 },
+    { lat: -12.89917, lng: -38.31636 },
+    { lat: -12.89906, lng: -38.31655 },
+    { lat: -12.89898, lng: -38.31667 },
+    { lat: -12.89867, lng: -38.31639 },
+    { lat: -12.89841, lng: -38.31615 },
+    { lat: -12.89831, lng: -38.31625 },
+    { lat: -12.89825, lng: -38.31631 },
+    { lat: -12.8982, lng: -38.31636 },
+    { lat: -12.89804, lng: -38.31651 },
+    { lat: -12.89776, lng: -38.3168 },
+    { lat: -12.89763, lng: -38.31693 },
+    { lat: -12.89749, lng: -38.31705 },
+    { lat: -12.89732, lng: -38.31722 },
+    { lat: -12.89719, lng: -38.31734 },
+    { lat: -12.89709, lng: -38.31748 },
+    { lat: -12.89705, lng: -38.31752 },
+    { lat: -12.89702, lng: -38.31754 },
+    { lat: -12.89698, lng: -38.31755 },
+    { lat: -12.89694, lng: -38.31757 },
+    { lat: -12.89691, lng: -38.31757 },
+    { lat: -12.89676, lng: -38.31758 },
+    { lat: -12.89673, lng: -38.31715 },
+    { lat: -12.89668, lng: -38.31671 },
+    { lat: -12.89662, lng: -38.31636 },
+    { lat: -12.89656, lng: -38.31602 },
+    { lat: -12.89624, lng: -38.315 },
+    { lat: -12.89621, lng: -38.31488 },
+    { lat: -12.8962, lng: -38.31479 },
+    { lat: -12.8962, lng: -38.31472 },
+    { lat: -12.89616, lng: -38.31463 },
+    { lat: -12.89615, lng: -38.31459 },
+    { lat: -12.89614, lng: -38.31456 },
+    { lat: -12.89613, lng: -38.31453 },
+    { lat: -12.89612, lng: -38.3145 },
+    { lat: -12.89612, lng: -38.31448 },
+    { lat: -12.89613, lng: -38.31446 },
+    { lat: -12.89615, lng: -38.31441 },
+    { lat: -12.89643, lng: -38.31388 },
+    { lat: -12.89702, lng: -38.31278 },
+    { lat: -12.8974, lng: -38.31207 },
+    { lat: -12.89681, lng: -38.31174 },
+    { lat: -12.89625, lng: -38.31145 }
+        // ... (restante das coordenadas)
+    ];
+
+    // Função para calcular a distância entre dois pontos
+    function calculateDistance(lat1, lng1, lat2, lng2) {
+        function toRad(value) {
+            return value * Math.PI / 180;
+        }
+
+        const R = 6371e3; // Raio da Terra em metros
+        const φ1 = toRad(lat1);
+        const φ2 = toRad(lat2);
+        const Δφ = toRad(lat2 - lat1);
+        const Δλ = toRad(lng2 - lng1);
+
+        const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                  Math.cos(φ1) * Math.cos(φ2) *
+                  Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c; // Distância em metros
+    }
+
+    // Inicializar o ícone do marcador
+    var truckIcon = new H.map.Icon('trucktp.png', { size: { w: 50, h: 50 } });
+
+    // Inicializar o marcador no ponto inicial da rota
+    var marker = new H.map.Marker(trackerData[0], { icon: truckIcon });
+    map.addObject(marker);
+
+    // Função para ajustar o caminho conforme as ruas (GeoJSON)
+    function snapToRoads(trackerPoints, streetLines) {
+        var snappedPoints = [];
+
+        trackerPoints.forEach(point => {
+            let closestPoint = null;
+            let minDistance = Infinity;
+
+            streetLines.forEach(lineString => {
+                const geoArray = lineString.getLatLngAltArray();
+                for (let i = 0; i < geoArray.length; i += 3) { // Itera pelos pontos da rua
+                    const lat = geoArray[i];
+                    const lng = geoArray[i + 1];
+                    const distance = calculateDistance(point.lat, point.lng, lat, lng);
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestPoint = { lat: lat, lng: lng };
+                    }
+                }
+            });
+
+            if (closestPoint) {
+                snappedPoints.push(closestPoint);
+            } else {
+                snappedPoints.push(point); // Se não achar uma rua próxima, mantém o ponto original
+            }
+        });
+
+        return snappedPoints;
+    }
+
+    // Função para mover o marcador ao longo da rota
+    function moveMarker() {
+    let currentIndex = 0;
+    let nextIndex = 1;
+    let stepDistance = 2; // Distância em metros entre atualizações
+    let interval = getRandomInterval(); // Inicia com um intervalo aleatório entre 600 e 1000ms
+
+    function getRandomInterval() {
+        return Math.floor(Math.random() * (1800 - 3000 + 1)) + 1800;
+    }
+
+    function moveStep() {
+        if (nextIndex < trackerData.length) {
+            let currentPoint = trackerData[currentIndex];
+            let nextPoint = trackerData[nextIndex];
+            let distance = calculateDistance(
+                currentPoint.lat, currentPoint.lng,
+                nextPoint.lat, nextPoint.lng
+            );
+
+            let latStep = (nextPoint.lat - currentPoint.lat) * (stepDistance / distance);
+            let lngStep = (nextPoint.lng - currentPoint.lng) * (stepDistance / distance);
+
+            currentPoint.lat += latStep;
+            currentPoint.lng += lngStep;
+
+            marker.setGeometry({ lat: currentPoint.lat, lng: currentPoint.lng });
+
+            if (distance <= stepDistance) {
+                currentIndex = nextIndex;
+                nextIndex++;
+            }
+
+            // Atualiza o intervalo para simular mudança de velocidade
+            clearInterval(intervalId);
+            intervalId = setInterval(moveStep, getRandomInterval());
+        }
+    }
+
+    let intervalId = setInterval(moveStep, interval);
+}
+
+    // Iniciar o movimento do marcador
+    moveMarker();
+
+    // Centralizar o mapa no início da rota
+    map.getViewModel().setLookAtData({
+        position: trackerData[0],
+        zoom: 14
+    });
+
+</script>
+
+</body>
+</html>
